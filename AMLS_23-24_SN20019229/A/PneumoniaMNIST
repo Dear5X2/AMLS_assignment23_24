@@ -5,6 +5,10 @@ import tensorflow as tf
 from tensorflow.keras import datasets, layers, models
 from tensorflow.keras.callbacks import EarlyStopping
 
+from sklearn.metrics import classification_report
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
+
 #Loading the NPZ file
 data = np.load('C:/Users/zerox/Desktop/ML20019229/Datasets/pneumoniamnist.npz')
 #print(data.keys()) #Get keys of the dataset
@@ -149,3 +153,40 @@ plt.legend(['Train', 'Validation'], loc='upper left')
 plt.show()
 
 model.save('PneumoniaMNIST.h5')
+
+# Convert y_test back to label indices if it's in categorical format
+true_labels = np.argmax(y_test, axis=1)
+
+# Use the predicted_labels from the previous steps
+
+# Generate the classification report
+report = classification_report(true_labels, predicted_labels, target_names=['Normal', 'Pneumonia'])
+
+print("Classification Report:")
+print(report)
+
+# Assuming true_labels and predicted_labels are already defined
+cm = confusion_matrix(true_labels, predicted_labels)
+
+# Print the raw confusion matrix to check the values
+print("Raw Confusion Matrix:")
+print(cm)
+
+# Convert confusion matrix to logarithmic scale to handle wide value ranges
+cm_log_scale = np.log1p(cm)  # log1p is used to handle zero values in the matrix
+
+# Plotting the confusion matrix
+plt.figure(figsize=(8, 6))
+sns.heatmap(cm
+            , fmt='d', cmap='Blues', xticklabels=['Normal', 'Pneumonia'], yticklabels=['Normal', 'Pneumonia'])
+plt.title('Confusion Matrix')
+plt.ylabel('True Label')
+plt.xlabel('Predicted Label')
+# Annotate each cell with the actual values from 'cm'
+for i in range(cm_log_scale.shape[0]):
+    for j in range(cm_log_scale.shape[1]):
+        plt.text(j+0.5, i+0.5, cm[i, j], 
+                 fontdict={'fontsize':8, 'weight':'bold', 'color':'black'},
+                 ha='center', va='center')
+
+plt.show()
