@@ -5,9 +5,12 @@ import tensorflow as tf
 from tensorflow.keras import datasets, layers, models
 from tensorflow.keras.utils import to_categorical
 
+from sklearn.metrics import confusion_matrix, classification_report
+import seaborn as sns
+
 #Loading the NPZ file
 data = np.load('C:/Users/zerox/Desktop/ML20019229/Datasets/pathmnist.npz')
-print(data.keys()) #Get keys of the dataset
+#print(data.keys()) #Get keys of the dataset
 
 #split data
 X_train,X_val,X_test = data['train_images'],data['val_images'],data['test_images']
@@ -62,3 +65,37 @@ plt.ylabel('Loss')
 plt.xlabel('Epoch')
 plt.legend(['Train', 'Validation'], loc='upper left')
 plt.show()
+
+# Predict the results
+y_pred = model.predict(X_test)
+y_pred_classes = np.argmax(y_pred, axis=1)
+
+# Confusion Matrix
+cm = confusion_matrix(y_test, y_pred_classes)
+
+# Custom labels for the issues
+issue_labels = ['Issue_0', 'Issue_1', 'Issue_2', 'Issue_3', 'Issue_4', 'Issue_5', 'Issue_6', 'Issue_7', 'Issue_8']
+
+# Convert confusion matrix to logarithmic scale to handle wide value ranges
+cm_log_scale = np.log1p(cm)  # log1p is used to handle zero values in the matrix
+
+plt.figure(figsize=(10,8))
+sns.heatmap(cm, fmt='d', cmap='Blues', xticklabels=issue_labels, yticklabels=issue_labels)
+plt.xlabel('Predicted')
+plt.ylabel('True')
+plt.title('Confusion Matrix')
+
+# Annotate each cell with the actual values from 'cm'
+for i in range(cm_log_scale.shape[0]):
+    for j in range(cm_log_scale.shape[1]):
+        plt.text(j+0.5, i+0.5, cm[i, j], 
+                 fontdict={'fontsize':8, 'weight':'bold', 'color':'black'},
+                 ha='center', va='center')
+
+plt.show()
+
+# Classification Report
+report = classification_report(y_test, y_pred_classes, digits=2)
+    
+# Classification Report
+print(classification_report(y_test, y_pred_classes))
