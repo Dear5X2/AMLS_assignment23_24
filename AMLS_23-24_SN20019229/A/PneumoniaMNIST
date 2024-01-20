@@ -10,7 +10,7 @@ from sklearn.metrics import confusion_matrix
 import seaborn as sns
 
 #Loading the NPZ file
-data = np.load('C:/Users/zerox/Desktop/ML20019229/Datasets/pneumoniamnist.npz')
+data = np.load('../Datasets/pneumoniamnist.npz')
 #print(data.keys()) #Get keys of the dataset
 
 #split data
