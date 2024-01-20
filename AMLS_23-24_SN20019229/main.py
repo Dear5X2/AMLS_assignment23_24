@@ -11,9 +11,10 @@ if __name__ == "__main__":
     
     if choice == '1':
         # Run the script in folder A
-        run_script('A/PneumoniaMNIST.py')  # Replace script_name.py with your actual script name
+        run_script('A/PneumoniaMNIST')  # Replace script_name.py with your actual script name
     elif choice == '2':
         # Run the script in folder B
-        run_script('B/PathMNIST.py')  # Replace script_name.py with your actual script name
+        run_script('B/PathMNIST')  # Replace script_name.py with your actual script name
     else:
         print("Invalid selection.")
+
