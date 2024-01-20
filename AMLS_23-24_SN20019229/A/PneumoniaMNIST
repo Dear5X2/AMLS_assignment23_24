@@ -154,6 +154,11 @@ plt.show()
 
 model.save('PneumoniaMNIST.h5')
 
+predictions = model.predict(X_test_preprocessed)
+
+# Convert predictions to label indices
+predicted_labels = np.argmax(predictions, axis=1)
+
 # Convert y_test back to label indices if it's in categorical format
 true_labels = np.argmax(y_test, axis=1)
 
