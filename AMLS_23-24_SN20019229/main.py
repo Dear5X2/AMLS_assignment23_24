@@ -7,7 +7,7 @@ def run_script(script_path):
 
 if __name__ == "__main__":
     # Ask the user which script to run
-    choice = input("Which script would you like to run? (1 for Script in A, 2 for Script in B): ")
+    choice = input("Which script would you like to run? (1 for Script in Task A, 2 for Script in Task B): ")
     
     if choice == '1':
         # Run the script in folder A
