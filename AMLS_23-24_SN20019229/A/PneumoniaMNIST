@@ -49,7 +49,7 @@ class_each_image(X_train, y_train_label)
 print('Randomly Picked Test Images:')
 class_each_image(X_test, y_test_label)
 
-def resize_images(images, new_size=(128,128)):
+def resize_images(images, new_size=(28,28)):
     resized_images = []
     for idx in images:
         resized = cv2.resize(idx, new_size)
@@ -74,9 +74,9 @@ def normalize_images(images):
         normalized_images.append(idx)
     return normalized_images
 
-X_train_preprocessed =  normalize_images(convert_to_rgb(resize_images(X_train,(128,128))))
-X_val_preprocessed = normalize_images(convert_to_rgb(resize_images(X_val,(128,128))))
-X_test_preprocessed = normalize_images(convert_to_rgb(resize_images(X_test,(128,128))))
+X_train_preprocessed =  normalize_images(convert_to_rgb(resize_images(X_train,(28,28))))
+X_val_preprocessed = normalize_images(convert_to_rgb(resize_images(X_val,(28,28))))
+X_test_preprocessed = normalize_images(convert_to_rgb(resize_images(X_test,(28,28))))
 #np.array(X_train_preprocessed).shape
 
 # Assuming X_train_preprocessed, X_val_preprocessed, X_test_preprocessed are already defined
@@ -92,7 +92,7 @@ y_val = tf.keras.utils.to_categorical(y_val, num_classes=2)
 y_test = tf.keras.utils.to_categorical(y_test, num_classes=2)
 
 model = models.Sequential([
-    layers.Conv2D(32, (3, 3), activation='relu', input_shape=(128, 128, 3)),
+    layers.Conv2D(32, (3, 3), activation='relu', input_shape=(28, 28, 3)),
     layers.MaxPooling2D((2, 2)),
     layers.Conv2D(64, (3, 3), activation='relu'),
     layers.MaxPooling2D((2, 2)),
