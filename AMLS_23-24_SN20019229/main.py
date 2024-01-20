@@ -1,35 +1,19 @@
-import os
-import nbformat
-from nbconvert.preprocessors import ExecutePreprocessor
+import subprocess
 
-# Function to run a notebook
-def run_notebook(notebook_directory, notebook_name):
-    # Construct the full path to the notebook
-    notebook_path = os.path.join(notebook_directory, notebook_name)
-    
-    # Load the notebook
-    with open(notebook_path, 'r', encoding='utf-8') as file:
-        nb = nbformat.read(file, as_version=4)
-        
-        # Create an execute preprocessor instance
-        ep = ExecutePreprocessor(timeout=600, kernel_name='python3')
-        
-        # Execute the notebook
-        ep.preprocess(nb, {'metadata': {'path': notebook_directory}})
-        
-        # Save the executed notebook
-        with open(notebook_path, 'w', encoding='utf-8') as file:
-            nbformat.write(nb, file)
+
+# Function to run a Python script using subprocess
+def run_script(script_path):
+    subprocess.run(["python", script_path], check=True)
 
 if __name__ == "__main__":
-    # Paths to the notebooks
-    pneumonia_notebook_directory = 'A'
-    pneumonia_notebook_name = 'PneumoniaMNIST.ipynb'
+    # Ask the user which script to run
+    choice = input("Which script would you like to run? (1 for Script in A, 2 for Script in B): ")
     
-    path_notebook_directory = 'B'
-    path_notebook_name = 'PathMNIST.ipynb'
-    
-    # Run the notebooks
-    run_notebook(pneumonia_notebook_directory, pneumonia_notebook_name)
-    
-    run_notebook(path_notebook_directory, path_notebook_name)
+    if choice == '1':
+        # Run the script in folder A
+        run_script('A/PneumoniaMNIST.py')  # Replace script_name.py with your actual script name
+    elif choice == '2':
+        # Run the script in folder B
+        run_script('B/PathMNIST.py')  # Replace script_name.py with your actual script name
+    else:
+        print("Invalid selection.")
